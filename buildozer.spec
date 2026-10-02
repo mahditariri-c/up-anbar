@@ -18,32 +18,29 @@ fullscreen = 0
 icon.filename = %(source.dir)s/icon.png
 
 
-# -------------------------
-# Android
-# -------------------------
+[buildozer]
+
+log_level = 2
+warn_on_root = 1
+
+
+[android]
 
 android.minapi = 24
 android.api = 33
 android.targetapi = 33
 
-android.archs = arm64-v8a, armeabi-v7a
-
-android.sdk_path = /usr/local/lib/android/sdk
-android.ndk_path = /usr/local/lib/android/sdk/ndk/27.3.13750724
-
-android.ndk_api = 24
+android.archs = arm64-v8a,armeabi-v7a
 
 android.allow_backup = True
 android.accept_sdk_license = True
 
 android.permissions = CAMERA,WRITE_EXTERNAL_STORAGE
 
+android.sdk_path = /usr/local/lib/android/sdk
+android.ndk_path = /usr/local/lib/android/sdk/ndk/28.2.13676358
 
-# -------------------------
-# Buildozer
-# -------------------------
+android.ndk = 28c
+android.ndk_api = 24
 
-[buildozer]
-
-log_level = 2
-warn_on_root = 1
+android.skip_update = True
