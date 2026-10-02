@@ -1,48 +1,28 @@
-name: Build Android
+[app]
+title = Up Anbar
+package.name = upanbar
+package.domain = org.mahditariri
+source.dir = .
+source.include_exts = py,kv,png,jpg,jpeg,ttf,otf,txt,json,md
+source.include_patterns = fonts/*.ttf,fonts/*.otf
 
-on:
-  push:
-    branches: [ "main" ]
-  workflow_dispatch:
+version = 10.0
 
-jobs:
-  build:
-    runs-on: ubuntu-22.04
+requirements = python3,kivy==2.3.0,kivymd==1.2.0,pillow,openpyxl,reportlab,arabic-reshaper,python-bidi,kivy_garden.graph
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+orientation = portrait
+fullscreen = 0
+icon.filename = %(source.dir)s/icon.png
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
+[buildozer]
+log_level = 2
+warn_on_root = 1
 
-      - name: Install system dependencies
-        run: |
-          sudo apt update
-          sudo apt install -y \
-            git zip unzip openjdk-17-jdk \
-            autoconf libtool pkg-config \
-            zlib1g-dev libncurses5-dev libncursesw5-dev \
-            libtinfo5 cmake libffi-dev libssl-dev \
-            build-essential ccache
-
-      - name: Install Buildozer and Cython
-        run: |
-          python -m pip install --upgrade pip
-          pip install --upgrade buildozer cython
-
-      - name: Build with Buildozer
-        env:
-          ANDROIDNDK: /usr/local/lib/android/sdk/ndk/27.3.13750724
-          ANDROIDNDKVER: r27
-        run: |
-          yes | buildozer -v android debug
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: up-anbar-debug-apk
-          path: bin/*.apk
-          if-no-files-found: warn
+[android]
+android.minapi = 24
+android.api = 33
+android.targetapi = 33
+android.archs = arm64-v8a, armeabi-v7a
+android.allow_backup = True
+android.accept_sdk_license = True
+android.permissions = WRITE_EXTERNAL_STORAGE
