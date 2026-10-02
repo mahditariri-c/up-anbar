@@ -1,7 +1,9 @@
 [app]
+
 title = Up Anbar
 package.name = upanbar
 package.domain = org.mahditariri
+
 source.dir = .
 source.include_exts = py,kv,png,jpg,jpeg,ttf,otf,txt,json,md
 source.include_patterns = fonts/*.ttf,fonts/*.otf
@@ -12,17 +14,36 @@ requirements = python3,kivy==2.3.0,kivymd==1.2.0,pillow,openpyxl,reportlab,arabi
 
 orientation = portrait
 fullscreen = 0
+
 icon.filename = %(source.dir)s/icon.png
 
-[buildozer]
-log_level = 2
-warn_on_root = 1
 
-[android]
+# -------------------------
+# Android
+# -------------------------
+
 android.minapi = 24
 android.api = 33
 android.targetapi = 33
+
 android.archs = arm64-v8a, armeabi-v7a
+
+android.sdk_path = /usr/local/lib/android/sdk
+android.ndk_path = /usr/local/lib/android/sdk/ndk/27.3.13750724
+
+android.ndk_api = 24
+
 android.allow_backup = True
 android.accept_sdk_license = True
-android.permissions = WRITE_EXTERNAL_STORAGE
+
+android.permissions = CAMERA,WRITE_EXTERNAL_STORAGE
+
+
+# -------------------------
+# Buildozer
+# -------------------------
+
+[buildozer]
+
+log_level = 2
+warn_on_root = 1
