@@ -36,20 +36,16 @@ jobs:
         run: |
           mkdir -p /home/runner/.buildozer/android/platform
 
-          # NDK symlink
           ln -sfn /usr/local/lib/android/sdk/ndk/27.3.13750724 \
                  /home/runner/.buildozer/android/platform/android-ndk-r28c
 
-          # SDK symlink
           ln -sfn /usr/local/lib/android/sdk \
                  /home/runner/.buildozer/android/platform/android-sdk
 
-          # sdkmanager: کپی cmdline-tools به tools
           rm -rf /home/runner/.buildozer/android/platform/android-sdk/tools
           cp -r /home/runner/.buildozer/android/platform/android-sdk/cmdline-tools/latest \
                 /home/runner/.buildozer/android/platform/android-sdk/tools
 
-          # بررسی وجود sdkmanager (بدون اجرا)
           echo "=== sdkmanager path ==="
           ls -la /home/runner/.buildozer/android/platform/android-sdk/tools/bin/sdkmanager
           echo "=== SDK structure ==="
