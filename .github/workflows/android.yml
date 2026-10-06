@@ -38,8 +38,6 @@ jobs:
           mkdir -p /home/runner/.buildozer/android/platform
 
           # لینک کردن NDK گیت‌هاب به مسیر Buildozer
-          # گیت‌هاب NDK 27 رو داره، ما به اسم r28c لینکش می‌کنیم
-          # چون Buildozer دنبال این اسم می‌گرده
           ln -sfn /usr/local/lib/android/sdk/ndk/27.3.13750724 \
                  /home/runner/.buildozer/android/platform/android-ndk-r28c
 
@@ -47,11 +45,18 @@ jobs:
           ln -sfn /usr/local/lib/android/sdk \
                  /home/runner/.buildozer/android/platform/android-sdk
 
+          # SDK جدید گیت‌هاب "tools" نداره، باید بسازیم
+          sudo mkdir -p /usr/local/lib/android/sdk/tools
+          sudo ln -sfn /usr/local/lib/android/sdk/cmdline-tools/latest/bin \
+                       /usr/local/lib/android/sdk/tools/bin
+
           # بررسی
           echo "=== NDK symlink ==="
           ls -la /home/runner/.buildozer/android/platform/android-ndk-r28c
-          echo "=== NDK contents ==="
-          ls /home/runner/.buildozer/android/platform/android-ndk-r28c/ | head -5
+          echo "=== sdkmanager path ==="
+          ls -la /usr/local/lib/android/sdk/tools/bin/sdkmanager
+          echo "=== Test sdkmanager ==="
+          /usr/local/lib/android/sdk/tools/bin/sdkmanager --version || echo "sdkmanager failed"
 
       - name: Build with Buildozer
         run: |
