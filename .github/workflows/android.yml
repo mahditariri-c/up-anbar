@@ -32,6 +32,27 @@ jobs:
           python -m pip install --upgrade pip
           pip install --upgrade buildozer cython
 
+      - name: Prepare NDK and SDK directories
+        run: |
+          # ساخت مسیر Buildozer
+          mkdir -p /home/runner/.buildozer/android/platform
+
+          # لینک کردن NDK گیت‌هاب به مسیر Buildozer
+          # گیت‌هاب NDK 27 رو داره، ما به اسم r28c لینکش می‌کنیم
+          # چون Buildozer دنبال این اسم می‌گرده
+          ln -sfn /usr/local/lib/android/sdk/ndk/27.3.13750724 \
+                 /home/runner/.buildozer/android/platform/android-ndk-r28c
+
+          # لینک کردن SDK گیت‌هاب
+          ln -sfn /usr/local/lib/android/sdk \
+                 /home/runner/.buildozer/android/platform/android-sdk
+
+          # بررسی
+          echo "=== NDK symlink ==="
+          ls -la /home/runner/.buildozer/android/platform/android-ndk-r28c
+          echo "=== NDK contents ==="
+          ls /home/runner/.buildozer/android/platform/android-ndk-r28c/ | head -5
+
       - name: Build with Buildozer
         run: |
           yes | buildozer -v android debug
