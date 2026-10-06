@@ -8,7 +8,7 @@ source.include_patterns = fonts/*.ttf,fonts/*.otf
 
 version = 10.0
 
-requirements = python3,kivy==2.3.0,kivymd==1.2.0,pillow
+requirements = python3,kivy==2.3.0,kivymd==1.2.0,pillow,openpyxl,reportlab,arabic-reshaper,python-bidi,kivy_garden.graph
 
 orientation = portrait
 fullscreen = 0
