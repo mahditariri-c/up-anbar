@@ -37,7 +37,7 @@ jobs:
           # ساخت مسیر Buildozer
           mkdir -p /home/runner/.buildozer/android/platform
 
-          # کپی NDK (نه symlink، چون Buildozer ممکنه با symlink مشکل داشته باشه)
+          # کپی NDK
           echo "Copying NDK..."
           cp -r /usr/local/lib/android/sdk/ndk/27.3.13750724 \
                 /home/runner/.buildozer/android/platform/android-ndk-r28c
@@ -47,21 +47,22 @@ jobs:
           cp -r /usr/local/lib/android/sdk \
                 /home/runner/.buildozer/android/platform/android-sdk
 
-          # ساخت مسیر tools/bin داخل SDK
-          echo "Creating tools/bin..."
-          mkdir -p /home/runner/.buildozer/android/platform/android-sdk/tools/bin
-          
-          # کپی محتوای cmdline-tools/latest/bin به tools/bin
-          cp -r /home/runner/.buildozer/android/platform/android-sdk/cmdline-tools/latest/bin/* \
-                /home/runner/.buildozer/android/platform/android-sdk/tools/bin/ 2>/dev/null || true
+          # ⭐ مهم: کل cmdline-tools/latest رو کپی کن به tools
+          # (نه فقط bin رو، چون sdkmanager به lib و .jar نیاز داره)
+          echo "Copying cmdline-tools to tools..."
+          rm -rf /home/runner/.buildozer/android/platform/android-sdk/tools
+          cp -r /home/runner/.buildozer/android/platform/android-sdk/cmdline-tools/latest \
+                /home/runner/.buildozer/android/platform/android-sdk/tools
 
           # بررسی
           echo "=== NDK contents ==="
           ls /home/runner/.buildozer/android/platform/android-ndk-r28c/ | head -5
-          echo "=== SDK tools/bin ==="
+          echo "=== tools/bin ==="
           ls /home/runner/.buildozer/android/platform/android-sdk/tools/bin/ | head -5
-          echo "=== sdkmanager version ==="
-          /home/runner/.buildozer/android/platform/android-sdk/tools/bin/sdkmanager --version || echo "sdkmanager check failed"
+          echo "=== tools/lib ==="
+          ls /home/runner/.buildozer/android/platform/android-sdk/tools/lib/ | head -5
+          echo "=== sdkmanager test ==="
+          /home/runner/.buildozer/android/platform/android-sdk/tools/bin/sdkmanager --version || echo "sdkmanager test failed"
 
       - name: Build with Buildozer
         run: |
